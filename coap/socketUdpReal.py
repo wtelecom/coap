@@ -33,7 +33,7 @@ class socketUdpReal(socketUdp.socketUdp):
         
         # open UDP port
         try:
-            self.socket_handler  = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
+            self.socket_handler  = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             self.socket_handler.bind((self.ipAddress,self.udpPort))
         except socket.error as err:
             log.critical(err)
@@ -61,7 +61,7 @@ class socketUdpReal(socketUdp.socketUdp):
         self.goOn = False
         
         # send some dummy value into the socket to trigger a read
-        self.socket_handler.sendto( 'stop', ('::1',self.udpPort) )
+        self.socket_handler.sendto( 'stop', ('127.0.0.1',self.udpPort) )
         
         # wait for this thread to exit
         self.join()

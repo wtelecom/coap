@@ -18,7 +18,6 @@ import coapResource     as r
 import coapDefines      as d
 import coapUri
 import coapTransmitter
-from socketUdpDispatcher import socketUdpDispatcher
 from socketUdpReal       import socketUdpReal
 
 class coap(object):
@@ -30,7 +29,7 @@ class coap(object):
         self.udpPort              = udpPort
 
         # local variables
-        self.name                 = 'coap@[{0}]:{1}'.format(self.ipAddress,self.udpPort)
+        self.name                 = 'coap@{0}:{1}'.format(self.ipAddress,self.udpPort)
         self.resourceLock         = threading.Lock()
         self.tokenizer            = t.coapTokenizer()
         self.resources            = []
@@ -39,6 +38,7 @@ class coap(object):
         self.ackTimeout           = d.DFLT_ACK_TIMEOUT
         self.respTimeout          = d.DFLT_RESPONSE_TIMEOUT
         if testing:
+            from socketUdpDispatcher import socketUdpDispatcher
             self.socketUdp        = socketUdpDispatcher(
                 ipAddress         = self.ipAddress,
                 udpPort           = self.udpPort,
@@ -56,7 +56,7 @@ class coap(object):
     def close(self):
         self.socketUdp.close()
 
-    #===== client
+    #===== client   
 
     def GET(self,uri,confirmable=True,options=[]):
         log.debug('GET {0}'.format(uri))
